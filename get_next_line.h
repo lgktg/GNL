@@ -6,7 +6,7 @@
 /*   By: tgelu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/06 17:29:04 by tgelu             #+#    #+#             */
-/*   Updated: 2018/06/02 19:03:54 by tgelu            ###   ########.fr       */
+/*   Updated: 2018/06/02 20:08:59 by piliegeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include "libft/libft.h"
 # include <fcntl.h>
 # include <stdio.h>
-# define BUFF_SIZE 99999
+# define BUFF_SIZE 1
 # define SEP '\n'
 
 # define MALCHK(x) if(x) return (-1);

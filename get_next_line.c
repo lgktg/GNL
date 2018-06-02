@@ -6,7 +6,7 @@
 /*   By: tgelu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/06 16:53:07 by tgelu             #+#    #+#             */
-/*   Updated: 2018/06/02 18:55:08 by tgelu            ###   ########.fr       */
+/*   Updated: 2018/06/02 20:07:27 by piliegeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ t_list		*ft_get_file(int fd, t_list **file)
 			return (current);
 		current = current->next;
 	}
-	current = ft_lstnew("\0", fd);
+	current = ft_memalloc(sizeof(t_list));
+	current->content_size = fd;
+	current->content = ft_strdup("");
 	ft_lstadd(file, current);
 	return (current);
 }
@@ -36,7 +38,8 @@ int			ft_get_line(char **line, t_list *current)
 	while (((char *)current->content)[i] != '\n'
 			&& ((char *)current->content)[i] != '\0')
 		i++;
-	*line = ft_strsub(current->content, 0, i);
+	if (((char*)current->content)[0])
+		*line = ft_strsub(current->content, 0, i);
 	return (i);
 }
 
@@ -59,14 +62,14 @@ int			get_next_line(const int fd, char **line)
 	int					len;
 
 	MALCHK((fd < 0 || line == NULL || read(fd, buff, 0) < 0
-			|| !(current = ft_get_file(fd, &save))));
+				|| !(current = ft_get_file(fd, &save))));
 	if (ft_strchr(current->content, SEP) == NULL)
 		while ((len = read(current->content_size, buff, BUFF_SIZE)))
 		{
 			buff[len] = '\0';
 			if (!(tmp = ft_strjoin(current->content, buff)))
 				return (-1);
-			ft_memdel(&current->content);
+			ft_memdel(&(current)->content);
 			current->content = ft_strdup(tmp);
 			ft_strdel(&tmp);
 			if (ft_strchr(current->content, SEP))

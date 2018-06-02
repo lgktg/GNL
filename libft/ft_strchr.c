@@ -6,7 +6,7 @@
 /*   By: tgelu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:08:48 by tgelu             #+#    #+#             */
-/*   Updated: 2018/04/10 16:16:11 by tgelu            ###   ########.fr       */
+/*   Updated: 2018/06/02 19:54:29 by piliegeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	*ft_strchr(const char *s, int c)
 {
 	size_t	i;
 
+	if (s == NULL)
+		return (NULL);
 	i = 0;
 	while (s[i])
 	{
