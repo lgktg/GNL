@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_lstprint.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgelu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/06 17:29:04 by tgelu             #+#    #+#             */
-/*   Updated: 2018/06/02 19:03:54 by tgelu            ###   ########.fr       */
+/*   Created: 2018/04/18 16:00:13 by tgelu             #+#    #+#             */
+/*   Updated: 2018/04/18 17:26:28 by tgelu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# define BUFF_SIZE 99999
-# define SEP '\n'
+#include "libft.h"
 
-# define MALCHK(x) if(x) return (-1);
+void	ft_lstprint(t_list *list)
+{
+	t_list *current;
 
-int			get_next_line(const int fd, char **line);
-#endif
+	current = list;
+	while (current != NULL)
+	{
+		ft_putstr(current->content);
+		current = current->next;
+	}
+}

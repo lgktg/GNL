@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgelu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/06 17:29:04 by tgelu             #+#    #+#             */
-/*   Updated: 2018/06/02 19:03:54 by tgelu            ###   ########.fr       */
+/*   Created: 2018/04/17 16:02:31 by tgelu             #+#    #+#             */
+/*   Updated: 2018/04/17 16:15:13 by tgelu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# define BUFF_SIZE 99999
-# define SEP '\n'
+#include "libft.h"
 
-# define MALCHK(x) if(x) return (-1);
+void	ft_putnbr(int nb)
+{
+	long n;
 
-int			get_next_line(const int fd, char **line);
-#endif
+	n = (long)nb;
+	if (n < 0)
+	{
+		ft_putchar('-');
+		n = -1 * n;
+	}
+	if (n >= 10)
+		ft_putnbr(n / 10);
+	ft_putchar((n % 10) + 48);
+}

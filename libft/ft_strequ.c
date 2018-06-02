@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strequ.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgelu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/06 17:29:04 by tgelu             #+#    #+#             */
-/*   Updated: 2018/06/02 19:03:54 by tgelu            ###   ########.fr       */
+/*   Created: 2018/04/14 14:15:05 by tgelu             #+#    #+#             */
+/*   Updated: 2018/04/21 17:38:26 by tgelu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# define BUFF_SIZE 99999
-# define SEP '\n'
+#include "libft.h"
+#include <stdio.h>
 
-# define MALCHK(x) if(x) return (-1);
+int		ft_strequ(char const *s1, char const *s2)
+{
+	int		i;
 
-int			get_next_line(const int fd, char **line);
-#endif
+	i = 0;
+	if (!s1 && !s2)
+		return (1);
+	if (!s1 || !s2)
+		return (0);
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	if (!(s1[i]) && !(s2[i]))
+		return (1);
+	return (0);
+}

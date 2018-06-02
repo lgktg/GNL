@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_lstfilter.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgelu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/06 17:29:04 by tgelu             #+#    #+#             */
-/*   Updated: 2018/06/02 19:03:54 by tgelu            ###   ########.fr       */
+/*   Created: 2018/04/18 16:13:24 by tgelu             #+#    #+#             */
+/*   Updated: 2018/04/18 17:19:24 by tgelu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# define BUFF_SIZE 99999
-# define SEP '\n'
+#include "libft.h"
 
-# define MALCHK(x) if(x) return (-1);
+t_list	*ft_lstfilter(t_list *head, int (*f)(t_list *))
+{
+	t_list	*ret;
+	t_list	*curr;
 
-int			get_next_line(const int fd, char **line);
-#endif
+	curr = head;
+	ret = ft_lstnew(NULL, 0);
+	while (curr->next != NULL)
+	{
+		if (f(curr))
+			ft_lstappend(ret, curr->content);
+		curr = curr->next;
+	}
+	ret = ft_lstshift(&ret);
+	return (ret);
+}

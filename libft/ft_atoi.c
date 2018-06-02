@@ -1,24 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgelu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/06 17:29:04 by tgelu             #+#    #+#             */
-/*   Updated: 2018/06/02 19:03:54 by tgelu            ###   ########.fr       */
+/*   Created: 2018/04/10 18:17:23 by tgelu             #+#    #+#             */
+/*   Updated: 2018/04/10 19:27:47 by tgelu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# define BUFF_SIZE 99999
-# define SEP '\n'
+#include "libft.h"
 
-# define MALCHK(x) if(x) return (-1);
+int		ft_atoi(const char *str)
+{
+	int i;
+	int neg;
+	int ret;
 
-int			get_next_line(const int fd, char **line);
-#endif
+	i = 0;
+	ret = 0;
+	neg = 1;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		neg = (-(str[i] - 44) > 0 ? 1 : -1);
+		i++;
+	}
+	while (str[i] >= 48 && str[i] <= 57)
+	{
+		ret = ret * 10 + (int)str[i] - 48;
+		i++;
+	}
+	return (neg * ret);
+}

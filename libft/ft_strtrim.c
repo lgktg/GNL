@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgelu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/06 17:29:04 by tgelu             #+#    #+#             */
-/*   Updated: 2018/06/02 19:03:54 by tgelu            ###   ########.fr       */
+/*   Created: 2018/04/14 16:51:10 by tgelu             #+#    #+#             */
+/*   Updated: 2018/04/21 17:01:06 by tgelu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "libft/libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# define BUFF_SIZE 99999
-# define SEP '\n'
+#include "libft.h"
 
-# define MALCHK(x) if(x) return (-1);
+char		*ft_strtrim(char const *s)
+{
+	size_t	i;
+	size_t	len;
 
-int			get_next_line(const int fd, char **line);
-#endif
+	if (s == NULL)
+		return (NULL);
+	len = ft_strlen(s) - 1;
+	while (s[len] && (s[len] == ' ' || s[len] == '\t' || s[len] == '\n'))
+		len--;
+	i = 0;
+	while (s[i] && (s[i] == ' ' || s[i] == '\t' || s[i] == '\n'))
+		i++;
+	if ((int)(len - i) < 0)
+		return (ft_strdup(""));
+	return (ft_strsub(s, i, (len - i + 1)));
+}

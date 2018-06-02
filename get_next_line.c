@@ -1,71 +1,80 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tgelu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/06 16:53:07 by tgelu             #+#    #+#             */
+/*   Updated: 2018/06/02 18:55:08 by tgelu            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-t_list         *ft_get_file(int fd, t_list *list)
+t_list		*ft_get_file(int fd, t_list **file)
 {
-    t_list      *current;
+	t_list		*current;
 
-    current = list;
-    while (current != NULL)
-    {
-        if (current->content_size == fd)
-            return (current);
-        current = current->next;
-    }
-    if (!(current = ft_lstnew("\0", fd)))
-        return (NULL);
-    return (current);
+	current = *file;
+	while (current != NULL)
+	{
+		if ((int)current->content_size == fd)
+			return (current);
+		current = current->next;
+	}
+	current = ft_lstnew("\0", fd);
+	ft_lstadd(file, current);
+	return (current);
 }
 
-char	*ft_strjoinfree(char *s1, char *s2, int mask)
+int			ft_get_line(char **line, t_list *current)
 {
-	char	*strjoin;
+	int			i;
 
-	if (!s1)
-		return (NULL);
-	strjoin = ft_strnew(ft_strlen(s1) + ft_strlen(s2));
-	if (!strjoin)
-		return (NULL);
-	ft_strcpy(strjoin, s1);
-	ft_strcat(strjoin, s2);
-	if (mask == 1)
-        free(s1);
-    else if (mask == 2)
-        free(s2);
-    else if (mask == 3)
-    {
-        free(s1);
-        free(s2);
-    }
-    return (strjoin);
+	i = 0;
+	while (((char *)current->content)[i] != '\n'
+			&& ((char *)current->content)[i] != '\0')
+		i++;
+	*line = ft_strsub(current->content, 0, i);
+	return (i);
+}
+
+void		ft_trim_current(t_list **current, int i)
+{
+	char		*tmp;
+
+	tmp = ft_strdup((char *)(*current)->content);
+	ft_memdel(&(*current)->content);
+	(*current)->content = ft_strsub(tmp, i + 1, ft_strlen(tmp) - i);
+	ft_strdel(&tmp);
 }
 
 int			get_next_line(const int fd, char **line)
 {
-    static t_list      *save;
-    t_list             *current;
-    char               buff[BUFF_SIZE + 1];
-    int                len;
-    int                i;
-    
-    if (fd < 0)
-        return (-1);
-    i = 0;
-    if (!(current = ft_get_file(fd, save)))
-        return (-1);
-    if (ft_strchr(current->content, SEP) == NULL)
-    {
-        while ((len = read(current->content_size, buff, BUFF_SIZE)))
-        {
-            buff[BUFF_SIZE] = '\0';
-            if (!(current->content = ft_strjoinfree(current->content, buff, 1)))
-                return (-1);
-            if (ft_strchr(current->content, SEP) != NULL)
-                break ;
-        }
-    }
-    while (((char *)current->content)[i] != '\n')
-        i++;
-    if (line && *line)
-        free(*line);
-    return ((len == 0) ? 0 : 1);
+	static t_list		*save;
+	t_list				*current;
+	char				buff[BUFF_SIZE + 1];
+	char				*tmp;
+	int					len;
+
+	MALCHK((fd < 0 || line == NULL || read(fd, buff, 0) < 0
+			|| !(current = ft_get_file(fd, &save))));
+	if (ft_strchr(current->content, SEP) == NULL)
+		while ((len = read(current->content_size, buff, BUFF_SIZE)))
+		{
+			buff[len] = '\0';
+			if (!(tmp = ft_strjoin(current->content, buff)))
+				return (-1);
+			ft_memdel(&current->content);
+			current->content = ft_strdup(tmp);
+			ft_strdel(&tmp);
+			if (ft_strchr(current->content, SEP))
+				break ;
+		}
+	len = ft_get_line(line, current);
+	if (!ft_strchr(current->content, '\n') && len == 0)
+		return (0);
+	ft_trim_current(&current, len);
+	return (1);
 }
